@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {View, Alert} from 'react-native'
-import {Text, ListItem} from 'react-native-elements'
+import {Text, Button, ListItem} from 'react-native-elements'
 
 class WidgetList extends Component {
   static navigationOptions = {title: 'Widgets'}
@@ -15,7 +15,7 @@ class WidgetList extends Component {
   componentDidMount() {
     const {navigation} = this.props;
     const lessonId = navigation.getParam("lessonId")
-    fetch("http://localhost:8080/api/lesson/"+lessonId+"/widget")
+    fetch("https://react-native-java-server.herokuapp.com/api/lesson/"+lessonId+"/widget")
       .then(response => (response.json()))
       .then(widgets => this.setState({widgets}))
   }
@@ -30,6 +30,17 @@ class WidgetList extends Component {
             key={index}
             subtitle={widget.description}
             title={widget.title}/>))}
+          <View style={{padding: 5}}>
+          <Button	backgroundColor="red"
+                     color="white"
+                     title="Add Assignment"/>
+           </View>
+          <View style={{padding: 5}}>
+          <Button	backgroundColor="red"
+                     color="white"
+                     title="Add Exam"/>
+          </View>
+
       </View>
     )
   }
