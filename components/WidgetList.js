@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {View, Alert} from 'react-native'
 import {Text, Button, ListItem} from 'react-native-elements'
+import AssignmentService from '../services/AssignmentService'
 
 class WidgetList extends Component {
     static navigationOptions = {title: 'Widgets'}
@@ -12,12 +13,12 @@ class WidgetList extends Component {
             exams: []
         }
         this.updateAssignments = this.updateAssignments.bind(this);
+        this.assignmentService = AssignmentService.instance;
     }
 
     updateAssignments(){
         let lessonId = this.props.navigation.getParam("lessonId");
-        fetch("https://react-native-java-server.herokuapp.com/api/lesson/" + lessonId + "/assignment")
-            .then(response => (response.json()))
+          this.assignmentService.findAllAssignmentsForLesson(lessonId)
             .then(assignments => this.setState({assignments}))
 
 
