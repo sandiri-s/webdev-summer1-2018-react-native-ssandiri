@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {View, Alert} from 'react-native'
 import {Text, Button, ListItem} from 'react-native-elements'
 import AssignmentService from '../services/AssignmentService'
+import ExamService from '../services/ExamService'
 
 class WidgetList extends Component {
     static navigationOptions = {title: 'Widgets'}
@@ -13,7 +14,9 @@ class WidgetList extends Component {
             exams: []
         }
         this.updateAssignments = this.updateAssignments.bind(this);
+        this.updateExams= this.updateExams.bind(this);
         this.assignmentService = AssignmentService.instance;
+        this.examService = ExamService.instance;
     }
 
     updateAssignments(){
@@ -23,9 +26,22 @@ class WidgetList extends Component {
 
 
     }
+
+
+    updateExams(){
+        let lessonId = this.props.navigation.getParam("lessonId");
+        console.log(lessonId);
+        this.examService.findAllExamsForLesson(lessonId)
+            .then(exams => this.setState({exams}))
+
+
+    }
+
+
     componentDidMount() {
 
         this.updateAssignments();
+        this.updateExams();
     }
 
     render() {
@@ -69,7 +85,7 @@ class WidgetList extends Component {
                                    color="white"
                                    title="Add Exam"
                                    onPress={() => this.props.navigation
-                                       .navigate("AssignmentWidget", {lessonId: lessonId})}
+                                       .navigate("NewExam", {lessonId: lessonId,updateExams:this.updateExams })}
                         />
                     </View>
                 </View>
