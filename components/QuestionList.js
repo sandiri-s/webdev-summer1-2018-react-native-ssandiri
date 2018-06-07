@@ -35,7 +35,7 @@ class QuestionList extends Component {
     newQuestion(){
         let examId = this.props.navigation.getParam("exam").id;
         this.props.navigation
-            .navigate("MultipleChoiceQuestionWidget", {examId: examId, updateChoiceQuestions:this.updateChoiceQuestions })
+            .navigate("TrueFalseQuestionEditor", {examId: examId, updateChoiceQuestions:this.updateTrueFalseQuestions })
 
     }
 

@@ -10,8 +10,9 @@ const TF_QUESTION_API_URL =
 const BLANKS_QUESTION_API_URL =
     'https://react-native-java-server.herokuapp.com/api/exam/EID/blanks';
 
-const QUESTION_BASE_URL =
-    'https://react-native-java-server.herokuapp.com/api/exam';
+const BASE_URL =
+    'https://react-native-java-server.herokuapp.com/api/';
+
 
 let _singleton = Symbol();
 export default class QuestionService {
@@ -57,6 +58,108 @@ export default class QuestionService {
     }
 
 
+    deleteAssignment(assignmentId){
+        return fetch(BASE_URL + 'assignment/' + assignmentId, {
+            method: 'delete'
+        });
+    }
+
+
+    deleteQuestion(questionId){
+        return fetch(BASE_URL + 'question/' + questionId, {
+            method: 'delete'
+        });
+    }
+
+     updateAssignment(assignmentId,assignment) {
+        return fetch(BASE_URL + 'assignment/' + assignmentId, {
+            method: 'put',
+            body: JSON.stringify(assignment),
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+            .then(function(response){
+                if(response.bodyUsed) {
+                    return response.json();
+                } else {
+                    return null;
+                }
+            });
+
+    }
+
+    updateChoiceQuestion(questionId,question) {
+        return fetch(BASE_URL + 'choice/' + questionId, {
+            method: 'put',
+            body: JSON.stringify(question),
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+            .then(function(response){
+                if(response.bodyUsed) {
+                    return response.json();
+                } else {
+                    return null;
+                }
+            });
+
+    }
+
+    updateFIBQuestion(questionId,question) {
+        return fetch(BASE_URL + 'blanks/' + questionId, {
+            method: 'put',
+            body: JSON.stringify(question),
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+            .then(function(response){
+                if(response.bodyUsed) {
+                    return response.json();
+                } else {
+                    return null;
+                }
+            });
+
+    }
+
+    updateEssayQuestion(questionId,question) {
+        return fetch(BASE_URL + 'essay/' + questionId, {
+            method: 'put',
+            body: JSON.stringify(question),
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+            .then(function(response){
+                if(response.bodyUsed) {
+                    return response.json();
+                } else {
+                    return null;
+                }
+            });
+
+    }
+
+    updateTFQuestion(questionId,question) {
+        return fetch(BASE_URL + 'truefalse/' + questionId, {
+            method: 'put',
+            body: JSON.stringify(question),
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+            .then(function(response){
+                if(response.bodyUsed) {
+                    return response.json();
+                } else {
+                    return null;
+                }
+            });
+
+    }
 
     createChoiceQuestion(examId, question) {
         return fetch(CHOICE_QUESTION_API_URL.replace('EID', examId),

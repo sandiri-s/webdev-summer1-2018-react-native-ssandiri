@@ -14,6 +14,7 @@ class AssignmentWidget extends React.Component {
             title: '',
             description: '',
             points: 0,
+            existing : false
         };
         this.AssignmentService = AssignmentService.instance;
         this.createAssignment = this.createAssignment.bind(this);
@@ -33,8 +34,8 @@ class AssignmentWidget extends React.Component {
                 {
                     title: assignment.title,
                     description: assignment.description,
-                    points: assignment.points
-
+                    points: assignment.points,
+                    existing: true
                 });
         }
 
@@ -91,6 +92,10 @@ class AssignmentWidget extends React.Component {
                         color="white"
                         title="Cancel"
                 />
+                {this.state.existing && <Button backgroundColor="red"
+                        color="white"
+                        title="delete"
+                />}
 
                 <Text h3>Preview</Text>
                 <Text h2>{this.state.title}</Text>
@@ -99,6 +104,7 @@ class AssignmentWidget extends React.Component {
             </View>
         )
     }
+
 }
 
 export default AssignmentWidget

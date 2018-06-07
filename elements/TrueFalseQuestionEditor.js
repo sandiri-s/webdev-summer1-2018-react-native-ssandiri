@@ -62,7 +62,7 @@ class TrueFalseQuestionEditor extends React.Component {
         </FormValidationMessage>
 
         <CheckBox onPress={() => this.updateForm({isTrue: !this.state.isTrue})}
-                  checked={this.state.isTrue} title='The answer is true'/>
+                  checked={this.state.isTrue} title={'The answer is ' + this.state.isTrue.toString()}/>
 
         <Button	backgroundColor="green"
                  color="white"
