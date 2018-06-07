@@ -6,7 +6,8 @@ import {FormLabel, FormInput, FormValidationMessage}
 import AssignmentService from '../services/AssignmentService'
 
 class AssignmentWidget extends React.Component {
-    static navigationOptions = { title: "Assignment Widget"}
+    static navigationOptions = {title: "Assignment Widget"}
+
     constructor(props) {
         super(props);
         this.state = {
@@ -15,9 +16,8 @@ class AssignmentWidget extends React.Component {
             points: 0,
         };
         this.AssignmentService = AssignmentService.instance;
-        this.createAssignment= this.createAssignment.bind(this);
+        this.createAssignment = this.createAssignment.bind(this);
     }
-
 
 
     updateForm(newState) {
@@ -25,15 +25,15 @@ class AssignmentWidget extends React.Component {
     }
 
 
-    componentDidMount(){
+    componentDidMount() {
         let assignment = this.props.navigation.getParam("assignment");
-        if(typeof assignment !== 'undefined'){
+        if (typeof assignment !== 'undefined') {
 
             this.setState(
                 {
-                    title : assignment.title,
-                    description : assignment.description,
-                    points : assignment.points
+                    title: assignment.title,
+                    description: assignment.description,
+                    points: assignment.points
 
                 });
         }
@@ -41,27 +41,28 @@ class AssignmentWidget extends React.Component {
     }
 
 
-    createAssignment(){
+    createAssignment() {
         let assignment;
         let lessonId = this.props.navigation.getParam("lessonId");
-        let updateAssignments = this.props.navigation.getParam("updateAssignments");
+        let updateAssignments = this.props.navigation.getParam("updateTrueFalseQuestions");
         assignment = {
             title: this.state.title,
             description: this.state.description,
             points: this.state.points,
-            widgetType : "Assignment"
+            widgetType: "Assignment"
         }
 
-        this.AssignmentService.createAssignment(lessonId,assignment).then(() => this.props.navigation
+        this.AssignmentService.createAssignment(lessonId, assignment).then(() => this.props.navigation
             .navigate("WidgetList", {lessonId: lessonId})).then(() => updateAssignments());
     }
+
     render() {
-        return(
+        return (
             <View>
                 <FormLabel>Title</FormLabel>
                 <FormInput onChangeText={
                     text => this.updateForm({title: text})
-                } value={ this.state.title}/>
+                } value={this.state.title}/>
                 <FormValidationMessage>
                     Title is required
                 </FormValidationMessage>
@@ -83,12 +84,12 @@ class AssignmentWidget extends React.Component {
                 </FormValidationMessage>
 
 
-                <Button	backgroundColor="green"
-                           color="white"
-                           title="Save" onPress={this.createAssignment}/>
-                <Button	backgroundColor="red"
-                           color="white"
-                           title="Cancel"
+                <Button backgroundColor="green"
+                        color="white"
+                        title="Save" onPress={this.createAssignment}/>
+                <Button backgroundColor="red"
+                        color="white"
+                        title="Cancel"
                 />
 
                 <Text h3>Preview</Text>

@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {View, Alert} from 'react-native'
+import {View, Alert,ScrollView} from 'react-native'
 import {Text, Button, ListItem} from 'react-native-elements'
 import AssignmentService from '../services/AssignmentService'
 import ExamService from '../services/ExamService'
@@ -49,7 +49,7 @@ class WidgetList extends Component {
         let lessonId = this.props.navigation.getParam("lessonId")
         return (
 
-            <View>
+            <ScrollView>
             <View style={{padding: 15}}>
               <Text h4> Assignments </Text>
             {this.state.assignments.map(
@@ -76,7 +76,7 @@ class WidgetList extends Component {
                     {this.state.exams.map(
                         (exam, index) => (<ListItem
                             onPress={() => this.props.navigation
-                                .navigate("ExamWidget", {exam: exam})}
+                                .navigate("QuestionList", {exam: exam})}
                             key={index}
                             subtitle={exam.description}
                             title={exam.title}/>))}
@@ -93,7 +93,7 @@ class WidgetList extends Component {
 
 
 
-            </View>
+            </ScrollView>
 
 
 

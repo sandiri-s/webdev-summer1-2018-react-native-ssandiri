@@ -100,7 +100,7 @@ export default class QuestionService {
 
     static get instance() {
         if(!this[_singleton])
-            this[_singleton] = new ExamService(_singleton);
+            this[_singleton] = new QuestionService(_singleton);
         return this[_singleton]
     }
 }

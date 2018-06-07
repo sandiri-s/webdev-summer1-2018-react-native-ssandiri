@@ -3,6 +3,7 @@ import {View} from 'react-native'
 import {Text, Button, CheckBox} from 'react-native-elements'
 import {FormLabel, FormInput, FormValidationMessage}
   from 'react-native-elements'
+import QuestionService from '../services/QuestionService'
 
 class TrueFalseQuestionEditor extends React.Component {
   static navigationOptions = { title: "True False"}
@@ -14,10 +15,33 @@ class TrueFalseQuestionEditor extends React.Component {
       points: 0,
       isTrue: true
     }
+    this.QuestionService = QuestionService.instance;
+    this.createQuestion=this.createQuestion.bind(this);
   }
   updateForm(newState) {
     this.setState(newState)
   }
+
+
+    createQuestion() {
+        let question;
+        let examId = this.props.navigation.getParam("examId");
+        let updateTrueFalseQuestions = this.props.navigation.getParam("updateTrueFalseQuestions");
+        question = {
+            title: this.state.title,
+            description: this.state.description,
+            points: this.state.points,
+            isTrue:this.state.isTrue,
+            type: "TrueFalse"
+        }
+
+        this.QuestionService.createTFQuestion(examId, question).then(() => this.props.navigation
+            .navigate("QuestionList", {examId: examId})).then(() => updateTrueFalseQuestions());
+    }
+
+
+
+
   render() {
     return(
       <View>
@@ -42,7 +66,9 @@ class TrueFalseQuestionEditor extends React.Component {
 
         <Button	backgroundColor="green"
                  color="white"
-                 title="Save"/>
+                 title="Save"
+                 onPress={this.createQuestion}
+        />
         <Button	backgroundColor="red"
                  color="white"
                  title="Cancel"/>

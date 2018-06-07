@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, StatusBar, ScrollView } from 'react-native';
 import FixedHeader from './elements/FixedHeader'
 import TextHeadings from './elements/TextHeadings'
 import Icons from './elements/Icons'
-import Exam from './elements/Exam'
 import QuestionTypeButtonGroupChooser from './elements/QuestionTypeButtonGroupChooser'
 import QuestionTypePicker from './elements/QuestionTypePicker'
 import TrueFalseQuestionEditor from './elements/TrueFalseQuestionEditor'
@@ -51,7 +50,6 @@ class Home extends React.Component {
         <QuestionTypeButtonGroupChooser/>
         <QuestionTypePicker/>
 
-        <Exam/>
 
         <Icons/>
         <View style={{padding: 20}}>
