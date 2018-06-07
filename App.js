@@ -6,7 +6,7 @@ import Icons from './elements/Icons'
 import QuestionTypeButtonGroupChooser from './elements/QuestionTypeButtonGroupChooser'
 import QuestionTypePicker from './elements/QuestionTypePicker'
 import TrueFalseQuestionEditor from './elements/TrueFalseQuestionEditor'
-import MultipleChoiceQuestionEditor from './elements/MultipleChoiceQuestionEditor'
+import MultipleChoiceQuestionWidget from './elements/MultipleChoiceQuestionWidget'
 import { createStackNavigator } from 'react-navigation'
 import {Button} from 'react-native-elements'
 import ScreenX from './elements/ScreenX'
@@ -43,12 +43,6 @@ class Home extends React.Component {
         <Button title="Go to Screen B"
                 onPress={() => this.props.navigation
                   .navigate('ScreenB') } />
-
-
-        <TrueFalseQuestionEditor/>
-
-        <QuestionTypeButtonGroupChooser/>
-        <QuestionTypePicker/>
 
 
         <Icons/>
@@ -92,7 +86,7 @@ const App = createStackNavigator({
   WidgetList,
   QuestionList,
   TrueFalseQuestionEditor,
-  MultipleChoiceQuestionEditor,
+  MultipleChoiceQuestionWidget,
   AssignmentWidget,
   ScreenA,
   ScreenB,

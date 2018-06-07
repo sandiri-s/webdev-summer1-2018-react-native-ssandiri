@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {View, Alert, ScrollView, Picker} from 'react-native'
 import {Text, Button, ListItem} from 'react-native-elements'
 import QuestionService from '../services/QuestionService'
+import MultipleChoiceQuestionWidget from "../elements/MultipleChoiceQuestionWidget";
 
 
 class QuestionList extends Component {
@@ -34,7 +35,7 @@ class QuestionList extends Component {
     newQuestion(){
         let examId = this.props.navigation.getParam("exam").id;
         this.props.navigation
-            .navigate("TrueFalseQuestionEditor", {examId: examId, updateTrueFalseQuestions:this.updateTrueFalseQuestions })
+            .navigate("MultipleChoiceQuestionWidget", {examId: examId, updateChoiceQuestions:this.updateChoiceQuestions })
 
     }
 
@@ -96,7 +97,7 @@ class QuestionList extends Component {
                 {this.state.choiceQuestions.map(
                         (question, index) => (<ListItem
                             onPress={() => this.props.navigation
-                                .navigate("AssignmentWidget", {examId: examId,question: question, updateChoiceQuestions:this.updateChoiceQuestions })}
+                                .navigate("MultipleChoiceQuestionWidget", {examId: examId,question: question, updateChoiceQuestions:this.updateChoiceQuestions })}
                             key={index}
                             title={question.title}/>))}
 
