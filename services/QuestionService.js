@@ -58,11 +58,6 @@ export default class QuestionService {
     }
 
 
-    deleteAssignment(assignmentId){
-        return fetch(BASE_URL + 'assignment/' + assignmentId, {
-            method: 'delete'
-        });
-    }
 
 
     deleteQuestion(questionId){
@@ -71,23 +66,6 @@ export default class QuestionService {
         });
     }
 
-     updateAssignment(assignmentId,assignment) {
-        return fetch(BASE_URL + 'assignment/' + assignmentId, {
-            method: 'put',
-            body: JSON.stringify(assignment),
-            headers: {
-                'content-type': 'application/json'
-            }
-        })
-            .then(function(response){
-                if(response.bodyUsed) {
-                    return response.json();
-                } else {
-                    return null;
-                }
-            });
-
-    }
 
     updateChoiceQuestion(questionId,question) {
         return fetch(BASE_URL + 'choice/' + questionId, {

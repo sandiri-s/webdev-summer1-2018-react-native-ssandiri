@@ -27,6 +27,24 @@ export default class AssignmentService {
             });
     }
 
+    updateAssignment(assignmentId,assignment) {
+        return fetch(ASSIGNMENT_BASE_URL + '/' + assignmentId, {
+            method: 'put',
+            body: JSON.stringify(assignment),
+            headers: {
+                'content-type': 'application/json'
+            }
+        })
+            .then(function(response){
+                if(response.bodyUsed) {
+                    return response.json();
+                } else {
+                    return null;
+                }
+            });
+
+    }
+
 
     deleteAssignment(assignmentId){
         return fetch(ASSIGNMENT_BASE_URL + '/' + assignmentId, {

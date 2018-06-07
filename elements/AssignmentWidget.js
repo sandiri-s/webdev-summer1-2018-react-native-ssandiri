@@ -18,6 +18,7 @@ class AssignmentWidget extends React.Component {
         };
         this.AssignmentService = AssignmentService.instance;
         this.createAssignment = this.createAssignment.bind(this);
+        this.deleteAssignment=this.deleteAssignment.bind(this);
     }
 
 
@@ -41,20 +42,35 @@ class AssignmentWidget extends React.Component {
 
     }
 
+    deleteAssignment(){
+        let lessonId = this.props.navigation.getParam("lessonId");
+        let assignment = this.props.navigation.getParam("assignment");
+        let updateAssignments = this.props.navigation.getParam("updateAssignments");
+        this.AssignmentService.deleteAssignment(assignment.id).then(() => this.props.navigation
+            .navigate("WidgetList", {lessonId: lessonId})).then(() => updateAssignments());
 
+
+    }
     createAssignment() {
         let assignment;
+
         let lessonId = this.props.navigation.getParam("lessonId");
-        let updateAssignments = this.props.navigation.getParam("updateTrueFalseQuestions");
+        let updateAssignments = this.props.navigation.getParam("updateAssignments");
         assignment = {
             title: this.state.title,
             description: this.state.description,
             points: this.state.points,
             widgetType: "Assignment"
         }
-
-        this.AssignmentService.createAssignment(lessonId, assignment).then(() => this.props.navigation
-            .navigate("WidgetList", {lessonId: lessonId})).then(() => updateAssignments());
+        if(this.state.existing)
+        {   let assignmentId = this.props.navigation.getParam("assignment").id;
+            this.AssignmentService.updateAssignment(assignmentId, assignment).then(() => this.props.navigation
+                .navigate("WidgetList", {lessonId: lessonId})).then(() => updateAssignments());
+        }
+        else {
+            this.AssignmentService.createAssignment(lessonId, assignment).then(() => this.props.navigation
+                .navigate("WidgetList", {lessonId: lessonId})).then(() => updateAssignments());
+        }
     }
 
     render() {
@@ -95,6 +111,8 @@ class AssignmentWidget extends React.Component {
                 {this.state.existing && <Button backgroundColor="red"
                         color="white"
                         title="delete"
+                    onPress={this.deleteAssignment}
+
                 />}
 
                 <Text h3>Preview</Text>
