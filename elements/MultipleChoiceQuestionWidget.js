@@ -1,15 +1,16 @@
 import React from 'react'
-import {View,StyleSheet} from 'react-native'
-import {Text, Button, CheckBox} from 'react-native-elements'
+import {ScrollView, View,StyleSheet, TextInput} from 'react-native'
+import {Text, Button, CheckBox, Divider} from 'react-native-elements'
 import {FormLabel, FormInput, FormValidationMessage}
     from 'react-native-elements'
 import QuestionService from '../services/QuestionService'
 import {RadioGroup, RadioButton} from 'react-native-flexi-radio-button'
 
 class MultipleChoiceQuestionWidget extends React.Component {
-    static navigationOptions = { title: "Multiple choice"}
+    static navigationOptions = {title: "Essay Question"}
+
     constructor(props) {
-        super(props)
+        super(props);
         this.state = {
             title: '',
             description: '',
@@ -19,11 +20,46 @@ class MultipleChoiceQuestionWidget extends React.Component {
         }
         this.QuestionService = QuestionService.instance;
         this.createQuestion=this.createQuestion.bind(this);
+        this.deleteQuestion=this.deleteQuestion.bind(this);
         this.optionField="";
         this.onSelect = this.onSelect.bind(this)
+        this.updateOptionField=this.updateOptionField.bind(this);
     }
+
+
     updateForm(newState) {
         this.setState(newState)
+    }
+
+
+    componentDidMount() {
+        let question = this.props.navigation.getParam("question");
+        if (typeof question !== 'undefined') {
+            this.setState(
+                {
+                    title: question.title,
+                    description: question.description,
+                    points: question.points,
+                    existing: true,
+                    options:question.options,
+                    correctOption:question.correctOption,
+                });
+        }
+
+    }
+
+    deleteQuestion(){
+        let examId = this.props.navigation.getParam("examId");
+        let question = this.props.navigation.getParam("question");
+        let updateChoiceQuestions = this.props.navigation.getParam("updateChoiceQuestions");
+        this.QuestionService.deleteQuestion(question.id).then(() => this.props.navigation
+            .navigate("QuestionList", {examId: examId})).then(() => updateChoiceQuestions());
+
+
+    }
+    onSelect(index,value){
+
+        this.updateForm({correctOption:index});
     }
 
     updateOptionField(value){
@@ -31,13 +67,9 @@ class MultipleChoiceQuestionWidget extends React.Component {
         this.optionField = value;
     }
 
-    onSelect(index,value){
-
-        this.updateForm({correctOption:index});
-    }
-
     createQuestion() {
         let question;
+
         let examId = this.props.navigation.getParam("examId");
         let updateChoiceQuestions = this.props.navigation.getParam("updateChoiceQuestions");
         question = {
@@ -48,34 +80,51 @@ class MultipleChoiceQuestionWidget extends React.Component {
             correctOption:this.state.correctOption,
             type: "Choice"
         }
-
-        this.QuestionService.createChoiceQuestion(examId, question).then(() => this.props.navigation
-            .navigate("QuestionList", {examId: examId})).then(() => updateChoiceQuestions());
+        if(this.state.existing)
+        {   let questionId = this.props.navigation.getParam("question").id;
+            this.QuestionService.updateChoiceQuestion(questionId, question).then(() => this.props.navigation
+                .navigate("QuestionList", {examId: examId})).then(() => updateChoiceQuestions());
+        }
+        else {
+            this.QuestionService.createChoiceQuestion(examId, question).then(() => this.props.navigation
+                .navigate("QuestionList", {examId: examId})).then(() => updateChoiceQuestions());
+        }
     }
 
-
-
-
     render() {
-        return(
-            <View>
+        let examId = this.props.navigation.getParam("examId");
+        return (
+            <ScrollView>
                 <FormLabel>Title</FormLabel>
                 <FormInput onChangeText={
                     text => this.updateForm({title: text})
-                }/>
+                } value={this.state.title}/>
+                <FormValidationMessage>
+                    Title is required
+                </FormValidationMessage>
 
+                <FormLabel>Points</FormLabel>
+                <FormInput onChangeText={
+                    points => this.updateForm({points: points})
+                } value={this.state.points.toString()}/>
+                <FormValidationMessage>
+                    Points are required
+                </FormValidationMessage>
 
                 <FormLabel>Description</FormLabel>
                 <FormInput onChangeText={
                     text => this.updateForm({description: text})
-                }/>
+                } value={this.state.description}/>
+                <FormValidationMessage>
+                    Description is required
+                </FormValidationMessage>
 
 
-                <FormLabel>enter an option</FormLabel>
+                <FormLabel>Enter an option</FormLabel>
                 <FormInput onChangeText={
                     text => this.updateOptionField(text)
                 }/>
-                <Button	backgroundColor="red"
+                <Button	style={{padding: 10}}  backgroundColor="red"
                            color="white"
                            title="Add option"
                            onPress={() => this.updateForm({options: this.state.options  + this.optionField + " "})}/>
@@ -86,6 +135,7 @@ class MultipleChoiceQuestionWidget extends React.Component {
                         thickness={2}
                         color='#9575b2'
                         highlightColor='#ccc8b9'
+                        selectedIndex={this.state.correctOption}
                         onSelect = {(index, value) => this.onSelect(index, value)}
                     >
 
@@ -93,8 +143,8 @@ class MultipleChoiceQuestionWidget extends React.Component {
                             (option, index) => (<RadioButton
                                 key = {index}
                                 value = {option}>
-                                    <Text>{option}</Text>
-                                </RadioButton>))}
+                                <Text>{option}</Text>
+                            </RadioButton>))}
 
                     </RadioGroup>
 
@@ -103,23 +153,77 @@ class MultipleChoiceQuestionWidget extends React.Component {
                 </View>
 
 
-                <Button	backgroundColor="green"
-                           color="white"
-                           title="Save"
-                           onPress={this.createQuestion}
-                />
-                <Button	backgroundColor="red"
-                           color="white"
-                           title="Cancel"/>
 
-                <Text h3>Preview</Text>
-                <Text h2>{this.state.title}</Text>
-                <Text>{this.state.description}</Text>
+                <View style={questionStyles.buttonRow}>
 
-            </View>
+                    <Button backgroundColor="green"
+                            color="white"
+                            title="Save" onPress={this.createQuestion}/>
+                    <Button backgroundColor="orange"
+                            color="white"
+                            title="Cancel"
+                            onPress={() => this.props.navigation
+                                .navigate("WidgetList", {examId: examId})}
+                    />
+                    {this.state.existing && <Button backgroundColor="red"
+                                                    color="white"
+                                                    title="delete"
+                                                    onPress={this.deleteQuestion}
+
+                    />}
+                </View>
+                <Divider style={{
+                    backgroundColor:
+                        'black' }}/>
+                <Text h4>Preview</Text>
+                <Divider style={{
+                    backgroundColor:
+                        'black' }}/>
+                <View style={questionStyles.rows}>
+                    <Text h5 >
+                        {this.state.title}
+                    </Text>
+                    <Text h5 >
+                        {this.state.points}pts
+                    </Text>
+                </View>
+                <View style={{padding: 5}}>
+                    <Text style={questionStyles.description}>
+                        {this.state.description}
+                    </Text>
+                    <View style={styles.container}>
+                        <RadioGroup
+                            size={24}
+                            thickness={2}
+                            color='#9575b2'
+                            highlightColor='#ccc8b9'
+                        >
+
+                            {this.state.options.split(" ").slice(0,-1).map(
+                                (option, index) => (<RadioButton
+                                    key = {index}
+                                    value = {option}>
+                                    <Text>{option}</Text>
+                                </RadioButton>))}
+
+                        </RadioGroup>
+
+
+
+                    </View>
+
+                    <Button style={{padding: 10}} title='Submit'/>
+
+
+                </View>
+
+            </ScrollView>
         )
     }
+
 }
+
+
 
 let styles = StyleSheet.create({
     container: {
@@ -130,4 +234,23 @@ let styles = StyleSheet.create({
         fontSize: 14,
     },
 })
+
+const questionStyles = StyleSheet.create({
+
+    rows: {
+        flexDirection: 'row',padding: 10,
+        justifyContent: 'space-between'
+    },
+
+    buttonRow: {
+        flexDirection: 'row',padding: 20,
+        justifyContent: 'space-between'
+    }
+    ,
+
+    description: {
+        padding: 10,
+        fontSize: 15
+    }
+});
 export default MultipleChoiceQuestionWidget

@@ -44,7 +44,10 @@ class QuestionList extends Component {
                 this.props.navigation
                     .navigate("EssayQuestionWidget", {examId: examId, updateEssayQuestions:this.updateEssayQuestions });
                 break;
-
+            case "MC":
+                this.props.navigation
+                    .navigate("MultipleChoiceQuestionWidget", {examId: examId, updateChoiceQuestions:this.updateChoiceQuestions });
+                break;
         }
 
 
