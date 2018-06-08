@@ -76,7 +76,7 @@ class WidgetList extends Component {
                     {this.state.exams.map(
                         (exam, index) => (<ListItem
                             onPress={() => this.props.navigation
-                                .navigate("QuestionList", {exam: exam})}
+                                .navigate("QuestionList", {examId: exam.id})}
                             key={index}
                             subtitle={exam.description}
                             title={exam.title}/>))}

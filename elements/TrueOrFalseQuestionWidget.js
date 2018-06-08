@@ -5,8 +5,8 @@ import {FormLabel, FormInput, FormValidationMessage}
     from 'react-native-elements'
 import QuestionService from '../services/QuestionService'
 
-class EssayQuestionWidget extends React.Component {
-    static navigationOptions = {title: "Essay Question"}
+class TrueOrFalseQuestionWidget extends React.Component {
+    static navigationOptions = {title: "TrueFalse Question"}
 
     constructor(props) {
         super(props);
@@ -14,7 +14,8 @@ class EssayQuestionWidget extends React.Component {
             title: '',
             description: '',
             points: 0,
-            existing : false
+            existing : false,
+            isTrue: true
         };
         this.QuestionService = QuestionService.instance;
         this.createQuestion = this.createQuestion.bind(this);
@@ -35,7 +36,8 @@ class EssayQuestionWidget extends React.Component {
                     title: question.title,
                     description: question.description,
                     points: question.points,
-                    existing: true
+                    existing: true,
+                    isTrue: question.isTrue
                 });
         }
 
@@ -44,9 +46,9 @@ class EssayQuestionWidget extends React.Component {
     deleteQuestion(){
         let examId = this.props.navigation.getParam("examId");
         let question = this.props.navigation.getParam("question");
-        let updateEssayQuestions = this.props.navigation.getParam("updateEssayQuestions");
+        let updateTrueFalseQuestions = this.props.navigation.getParam("updateTrueFalseQuestions");
         this.QuestionService.deleteQuestion(question.id).then(() => this.props.navigation
-            .navigate("QuestionList", {examId: examId})).then(() => updateEssayQuestions());
+            .navigate("QuestionList", {examId: examId})).then(() => updateTrueFalseQuestions());
 
 
     }
@@ -54,21 +56,21 @@ class EssayQuestionWidget extends React.Component {
         let question;
 
         let examId = this.props.navigation.getParam("examId");
-        let updateEssayQuestions = this.props.navigation.getParam("updateEssayQuestions");
+        let updateTrueFalseQuestions = this.props.navigation.getParam("updateTrueFalseQuestions");
         question = {
             title: this.state.title,
             description: this.state.description,
             points: this.state.points,
-            type: "Essay"
+            type: "TrueFalse"
         }
         if(this.state.existing)
         {   let questionId = this.props.navigation.getParam("question").id;
-            this.QuestionService.updateEssayQuestion(questionId, question).then(() => this.props.navigation
-                .navigate("QuestionList", {examId: examId})).then(() => updateEssayQuestions());
+            this.QuestionService.updateTFQuestion(questionId, question).then(() => this.props.navigation
+                .navigate("QuestionList", {examId: examId})).then(() => updateTrueFalseQuestions());
         }
         else {
-            this.QuestionService.createEssayQuestion(examId, question).then(() => this.props.navigation
-                .navigate("QuestionList", {examId: examId})).then(() => updateEssayQuestions());
+            this.QuestionService.createTFQuestion(examId, question).then(() => this.props.navigation
+                .navigate("QuestionList", {examId: examId})).then(() => updateTrueFalseQuestions());
         }
     }
 
@@ -99,6 +101,10 @@ class EssayQuestionWidget extends React.Component {
                 <FormValidationMessage>
                     Description is required
                 </FormValidationMessage>
+
+                <CheckBox style={{padding:5}} onPress={() => this.updateForm({isTrue: !this.state.isTrue})}
+                          checked={this.state.isTrue} title={'The answer is ' + this.state.isTrue.toString()}/>
+
                 <View style={questionStyles.buttonRow}>
 
                     <Button backgroundColor="green"
@@ -137,10 +143,9 @@ class EssayQuestionWidget extends React.Component {
                         {this.state.description}
                     </Text>
                     <View style={{padding: 5}} >
-                        <Text h5>Essay Answer</Text>
-                        <TextInput  multiline={true}
-                                    numberOfLines={5} placeholder='enter the answer here'/>
 
+                        <CheckBox style={{padding:5}}
+                                  checked={false} title={'present answer is false'}/>
 
                     </View>
 
@@ -172,4 +177,4 @@ const questionStyles = StyleSheet.create({
         fontSize: 15
     }
 });
-export default EssayQuestionWidget
+export default TrueOrFalseQuestionWidget

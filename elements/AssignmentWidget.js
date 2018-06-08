@@ -145,7 +145,7 @@ class AssignmentWidget extends React.Component {
 
                     <Text h5>Upload File</Text>
                     <Button style={{padding: 10, width:120}} title='upload'/>
-                 </View>View>
+                 </View>
                     <View style={{padding: 5}}>
                     <FormLabel>Submit a link</FormLabel>
                     <FormInput />

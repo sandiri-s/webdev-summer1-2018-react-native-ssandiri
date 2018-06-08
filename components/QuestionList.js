@@ -26,21 +26,24 @@ class QuestionList extends Component {
     }
 
     updateChoiceQuestions(){
-        let examId = this.props.navigation.getParam("exam").id;
+        let examId = this.props.navigation.getParam("examId");
         this.QuestionService.findAllChoiceQuestionsForExam(examId)
             .then(choiceQuestions => this.setState({choiceQuestions}))
 
     }
 
     newQuestion(){
-        let examId = this.props.navigation.getParam("exam").id;
+        let examId = this.props.navigation.getParam("examId");
         
         switch (this.state.questionType) {
             case "TF":
                 this.props.navigation
-                    .navigate("TrueFalseQuestionEditor", {examId: examId, updateChoiceQuestions:this.updateTrueFalseQuestions });
+                    .navigate("TrueOrFalseQuestionWidget", {examId: examId, updateTrueFalseQuestions:this.updateTrueFalseQuestions });
                 break;
-
+            case "ES":
+                this.props.navigation
+                    .navigate("EssayQuestionWidget", {examId: examId, updateEssayQuestions:this.updateEssayQuestions });
+                break;
 
         }
 
@@ -48,21 +51,21 @@ class QuestionList extends Component {
     }
 
     updateBlankQuestions(){
-        let examId = this.props.navigation.getParam("exam").id;
+        let examId = this.props.navigation.getParam("examId");
         this.QuestionService.findAllBLanksQuestionsForExam(examId)
             .then(blankQuestions => this.setState({blankQuestions}))
 
     }
 
     updateEssayQuestions(){
-        let examId = this.props.navigation.getParam("exam").id;
+        let examId = this.props.navigation.getParam("examId");
         this.QuestionService.findAllEssayQuestionsForExam(examId)
             .then(essayQuestions => this.setState({essayQuestions}))
 
     }
 
     updateTrueFalseQuestions(){
-        let examId = this.props.navigation.getParam("exam").id;
+        let examId = this.props.navigation.getParam("examId");
         this.QuestionService.findAllTFQuestionsForExam(examId)
             .then(trueFalseQuestions => this.setState({trueFalseQuestions}))
 
@@ -80,7 +83,7 @@ class QuestionList extends Component {
 
     render() {
 
-        let examId = this.props.navigation.getParam("exam").id;
+        let examId = this.props.navigation.getParam("examId");
         return (
 
             <ScrollView style={{padding: 15}}>
@@ -130,14 +133,14 @@ class QuestionList extends Component {
                 {this.state.essayQuestions.map(
                     (question, index) => (<ListItem
                         onPress={() => this.props.navigation
-                            .navigate("AssignmentWidget", {examId: examId,question: question, updateEssayQuestions:this.updateEssayQuestions })}
+                            .navigate("EssayQuestionWidget", {examId: examId,question: question, updateEssayQuestions:this.updateEssayQuestions })}
                         key={index}
                         title={question.title}/>))}
 
                 {this.state.trueFalseQuestions.map(
                     (question, index) => (<ListItem
                         onPress={() => this.props.navigation
-                            .navigate("AssignmentWidget", {examId: examId,question: question, updateTrueFalseQuestions:this.updateTrueFalseQuestions })}
+                            .navigate("TrueOrFalseQuestionWidget", {examId: examId,question: question, updateTrueFalseQuestions:this.updateTrueFalseQuestions })}
                         key={index}
                         title={question.title}/>))}
 
