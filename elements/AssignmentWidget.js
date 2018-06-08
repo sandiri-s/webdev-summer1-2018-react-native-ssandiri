@@ -1,6 +1,6 @@
 import React from 'react'
-import {View} from 'react-native'
-import {Text, Button, CheckBox} from 'react-native-elements'
+import {ScrollView, View,StyleSheet, TextInput} from 'react-native'
+import {Text, Button, CheckBox, Divider} from 'react-native-elements'
 import {FormLabel, FormInput, FormValidationMessage}
     from 'react-native-elements'
 import AssignmentService from '../services/AssignmentService'
@@ -74,8 +74,9 @@ class AssignmentWidget extends React.Component {
     }
 
     render() {
+        let lessonId = this.props.navigation.getParam("lessonId");
         return (
-            <View>
+            <ScrollView>
                 <FormLabel>Title</FormLabel>
                 <FormInput onChangeText={
                     text => this.updateForm({title: text})
@@ -99,14 +100,16 @@ class AssignmentWidget extends React.Component {
                 <FormValidationMessage>
                     Description is required
                 </FormValidationMessage>
-
+                <View style={assignmentStyles.buttonRow}>
 
                 <Button backgroundColor="green"
                         color="white"
                         title="Save" onPress={this.createAssignment}/>
-                <Button backgroundColor="red"
+                <Button backgroundColor="orange"
                         color="white"
                         title="Cancel"
+                        onPress={() => this.props.navigation
+                            .navigate("WidgetList", {lessonId: lessonId})}
                 />
                 {this.state.existing && <Button backgroundColor="red"
                         color="white"
@@ -114,15 +117,66 @@ class AssignmentWidget extends React.Component {
                     onPress={this.deleteAssignment}
 
                 />}
+                </View>
+                <Divider style={{
+                    backgroundColor:
+                        'black' }}/>
+                <Text h4>Preview</Text>
+                <Divider style={{
+                    backgroundColor:
+                        'black' }}/>
+                <View style={assignmentStyles.rows}>
+                    <Text h5 >
+                        {this.state.title}
+                    </Text>
+                    <Text h5 >
+                        {this.state.points}pts
+                    </Text>
+                </View>
+                <View style={{padding: 5}}>
+                <Text style={assignmentStyles.description}>
+                    {this.state.description}
+                </Text>
+                 <View style={{padding: 5}} >
+                <Text h5>Essay Answer</Text>
+                <TextInput  multiline={true}
+                              numberOfLines={4} placeholder='enter the answer here'/>
 
-                <Text h3>Preview</Text>
-                <Text h2>{this.state.title}</Text>
-                <Text>{this.state.description}</Text>
 
-            </View>
+                    <Text h5>Upload File</Text>
+                    <Button style={{padding: 10, width:120}} title='upload'/>
+                 </View>View>
+                    <View style={{padding: 5}}>
+                    <FormLabel>Submit a link</FormLabel>
+                    <FormInput />
+                    </View>
+
+                    <Button style={{padding: 10}} title='Submit'/>
+
+
+                </View>
+
+            </ScrollView>
         )
     }
 
 }
+const assignmentStyles = StyleSheet.create({
 
+    rows: {
+        flexDirection: 'row',padding: 10,
+        justifyContent: 'space-between'
+    },
+
+    buttonRow: {
+        flexDirection: 'row',padding: 20,
+        justifyContent: 'space-between'
+    }
+    ,
+
+    description: {
+        padding: 10,
+        fontSize: 15
+    }
+});
 export default AssignmentWidget

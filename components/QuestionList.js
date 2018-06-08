@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
 import {View, Alert, ScrollView, Picker} from 'react-native'
-import {Text, Button, ListItem} from 'react-native-elements'
+import {Text, Button, ListItem,Divider} from 'react-native-elements'
 import QuestionService from '../services/QuestionService'
 import MultipleChoiceQuestionWidget from "../elements/MultipleChoiceQuestionWidget";
 
 
 class QuestionList extends Component {
-    static navigationOptions = {title: 'Widgets'}
+    static navigationOptions = {title: 'Questions'}
 
     constructor(props) {
         super(props)
@@ -34,8 +34,16 @@ class QuestionList extends Component {
 
     newQuestion(){
         let examId = this.props.navigation.getParam("exam").id;
-        this.props.navigation
-            .navigate("TrueFalseQuestionEditor", {examId: examId, updateChoiceQuestions:this.updateTrueFalseQuestions })
+        
+        switch (this.state.questionType) {
+            case "TF":
+                this.props.navigation
+                    .navigate("TrueFalseQuestionEditor", {examId: examId, updateChoiceQuestions:this.updateTrueFalseQuestions });
+                break;
+
+
+        }
+
 
     }
 
@@ -79,6 +87,7 @@ class QuestionList extends Component {
                 <View  >
 
                     <Picker
+
                         onValueChange={(itemValue, itemIndex) =>
                             this.setState({questionType: itemValue})}
                         selectedValue={this.state.questionType}>
@@ -88,10 +97,20 @@ class QuestionList extends Component {
                         <Picker.Item value="FB" label="Fill in the blanks" />
                     </Picker>
 
-                    <Button backgroundColor="red"
+                    <Button backgroundColor="orange"
                             color="white"
-                            title="Add" onPress={this.newQuestion}/>
+                            title="Add Question"
+                            style={{padding: 5}} onPress={this.newQuestion}/>
 
+                    <View style={{padding: 10}} >
+                    <Divider style={{
+                        backgroundColor:
+                            'black' }}/>
+                    <Text h4>Questions</Text>
+                    <Divider style={{
+                        backgroundColor:
+                            'black' }}/>
+                    </View>
                  </View>
 
                 {this.state.choiceQuestions.map(

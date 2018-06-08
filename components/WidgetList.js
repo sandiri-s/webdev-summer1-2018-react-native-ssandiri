@@ -60,7 +60,7 @@ class WidgetList extends Component {
                             subtitle={assignment.description}
                             title={assignment.title}/>))}
             <View style={{padding: 5}}>
-                <Button	backgroundColor="red"
+                <Button	style={{padding: 5}} backgroundColor="orange"
                            color="white"
                            title="Add Assignment"
                            onPress={() => this.props.navigation
@@ -81,7 +81,7 @@ class WidgetList extends Component {
                             subtitle={exam.description}
                             title={exam.title}/>))}
                     <View style={{padding: 5}}>
-                        <Button	backgroundColor="red"
+                        <Button	style={{padding: 5}} backgroundColor="orange"
                                    color="white"
                                    title="Add Exam"
                                    onPress={() => this.props.navigation

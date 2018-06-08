@@ -40,6 +40,7 @@ class NewExam extends React.Component {
             .navigate("WidgetList", {lessonId: lessonId})).then(() => updateExams());
     }
     render() {
+        let lessonId = this.props.navigation.getParam("lessonId");
         return(
             <View>
                 <FormLabel>Title</FormLabel>
@@ -59,18 +60,20 @@ class NewExam extends React.Component {
                     Description is required
                 </FormValidationMessage>
 
-
+                <View style ={{
+                          flexDirection: 'row',padding: 20,
+                          justifyContent: 'space-between'
+                      }}>
                 <Button	backgroundColor="green"
                            color="white"
                            title="Save" onPress={this.createExam}/>
                 <Button	backgroundColor="red"
                            color="white"
                            title="Cancel"
+                           onPress={() => this.props.navigation
+                               .navigate("WidgetList", {lessonId: lessonId})}
                 />
-
-                <Text h3>Preview</Text>
-                <Text h2>{this.state.title}</Text>
-                <Text>{this.state.description}</Text>
+                 </View>
 
             </View>
         )
