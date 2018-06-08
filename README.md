@@ -1,3 +1,7 @@
+
+
+The server side code for this application can be found at https://github.com/sandiri-s/webdev-summer1-2018-java-server-ssandiri in the branch react-native
+
 This project was bootstrapped with [Create React Native App](https://github.com/react-community/create-react-native-app).
 
 Below you'll find information about performing common tasks. The most recent version of this guide is available [here](https://github.com/react-community/create-react-native-app/blob/master/react-native-scripts/template/README.md).
