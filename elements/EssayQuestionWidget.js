@@ -108,7 +108,7 @@ class EssayQuestionWidget extends React.Component {
                             color="white"
                             title="Cancel"
                             onPress={() => this.props.navigation
-                                .navigate("WidgetList", {examId: examId})}
+                                .navigate("QuestionList", {examId: examId})}
                     />
                     {this.state.existing && <Button backgroundColor="red"
                                                     color="white"
@@ -138,8 +138,16 @@ class EssayQuestionWidget extends React.Component {
                     </Text>
                     <View style={{padding: 5}} >
                         <Text h5>Essay Answer</Text>
-                        <TextInput  multiline={true}
-                                    numberOfLines={5} placeholder='enter the answer here'/>
+                        <TextInput multiline={true}
+                                   style={{
+                                       height: 100,
+                                       backgroundColor: 'white',
+                                       borderBottomWidth: 0,
+                                       borderWidth: 2,
+                                       padding:10
+                                   }}
+                                   placeholder="write the essay here"
+                        />
 
 
                     </View>

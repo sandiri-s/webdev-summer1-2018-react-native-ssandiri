@@ -114,7 +114,7 @@ class TrueOrFalseQuestionWidget extends React.Component {
                             color="white"
                             title="Cancel"
                             onPress={() => this.props.navigation
-                                .navigate("WidgetList", {examId: examId})}
+                                .navigate("QuestionList", {examId: examId})}
                     />
                     {this.state.existing && <Button backgroundColor="red"
                                                     color="white"

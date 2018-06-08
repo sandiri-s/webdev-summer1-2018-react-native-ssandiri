@@ -1,5 +1,5 @@
 import React from 'react'
-import {ScrollView, View,StyleSheet, TextInput} from 'react-native'
+import {ScrollView, View,StyleSheet, TextInput,TouchableOpacity} from 'react-native'
 import {Text, Button, CheckBox, Divider} from 'react-native-elements'
 import {FormLabel, FormInput, FormValidationMessage}
     from 'react-native-elements'
@@ -141,9 +141,12 @@ class MultipleChoiceQuestionWidget extends React.Component {
 
                         {this.state.options.split(" ").slice(0,-1).map(
                             (option, index) => (<RadioButton
+
                                 key = {index}
                                 value = {option}>
+
                                 <Text>{option}</Text>
+
                             </RadioButton>))}
 
                     </RadioGroup>
@@ -163,7 +166,7 @@ class MultipleChoiceQuestionWidget extends React.Component {
                             color="white"
                             title="Cancel"
                             onPress={() => this.props.navigation
-                                .navigate("WidgetList", {examId: examId})}
+                                .navigate("QuestionList", {examId: examId})}
                     />
                     {this.state.existing && <Button backgroundColor="red"
                                                     color="white"

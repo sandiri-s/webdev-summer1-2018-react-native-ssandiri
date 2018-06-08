@@ -3,6 +3,7 @@ import {View, Alert, ScrollView, Picker} from 'react-native'
 import {Text, Button, ListItem,Divider} from 'react-native-elements'
 import QuestionService from '../services/QuestionService'
 import MultipleChoiceQuestionWidget from "../elements/MultipleChoiceQuestionWidget";
+import FillInTheBlanksQuestionWidget from "../elements/FillInTheBlanksQuestionWidget";
 
 
 class QuestionList extends Component {
@@ -47,6 +48,10 @@ class QuestionList extends Component {
             case "MC":
                 this.props.navigation
                     .navigate("MultipleChoiceQuestionWidget", {examId: examId, updateChoiceQuestions:this.updateChoiceQuestions });
+                break;
+            case "FB":
+                this.props.navigation
+                    .navigate("FillInTheBlanksQuestionWidget", {examId: examId, updateBlankQuestions:this.updateBlankQuestions });
                 break;
         }
 
@@ -121,6 +126,7 @@ class QuestionList extends Component {
 
                 {this.state.choiceQuestions.map(
                         (question, index) => (<ListItem
+                            leftIcon={{name: 'list'}}
                             onPress={() => this.props.navigation
                                 .navigate("MultipleChoiceQuestionWidget", {examId: examId,question: question, updateChoiceQuestions:this.updateChoiceQuestions })}
                             key={index}
@@ -128,13 +134,15 @@ class QuestionList extends Component {
 
                 {this.state.blankQuestions.map(
                     (question, index) => (<ListItem
+                                leftIcon={{name: 'code'}}
                         onPress={() => this.props.navigation
-                            .navigate("AssignmentWidget", {examId: examId,question: question, updateBlankQuestions:this.updateBlankQuestions })}
+                            .navigate("FillInTheBlanksQuestionWidget", {examId: examId,question: question, updateBlankQuestions:this.updateBlankQuestions })}
                         key={index}
                         title={question.title}/>))}
 
                 {this.state.essayQuestions.map(
                     (question, index) => (<ListItem
+                                    leftIcon={{name: 'subject'}}
                         onPress={() => this.props.navigation
                             .navigate("EssayQuestionWidget", {examId: examId,question: question, updateEssayQuestions:this.updateEssayQuestions })}
                         key={index}
@@ -142,6 +150,7 @@ class QuestionList extends Component {
 
                 {this.state.trueFalseQuestions.map(
                     (question, index) => (<ListItem
+                                        leftIcon={{name: 'check'}}
                         onPress={() => this.props.navigation
                             .navigate("TrueOrFalseQuestionWidget", {examId: examId,question: question, updateTrueFalseQuestions:this.updateTrueFalseQuestions })}
                         key={index}
