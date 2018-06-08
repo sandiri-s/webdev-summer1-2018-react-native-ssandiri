@@ -138,9 +138,17 @@ class AssignmentWidget extends React.Component {
                     {this.state.description}
                 </Text>
                  <View style={{padding: 5}} >
-                <Text h5>Essay Answer</Text>
-                <TextInput  multiline={true}
-                              numberOfLines={4} placeholder='enter the answer here'/>
+                <Text h5>Assignment Answer</Text>
+                     <TextInput multiline={true}
+                                style={{
+                                    height: 100,
+                                    backgroundColor: 'white',
+                                    borderBottomWidth: 0,
+                                    borderWidth: 2,
+                                    padding:10
+                                }}
+                                placeholder="write the answer here"
+                     />
 
 
                     <Text h5>Upload File</Text>

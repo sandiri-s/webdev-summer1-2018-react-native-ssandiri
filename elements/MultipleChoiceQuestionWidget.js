@@ -24,8 +24,13 @@ class MultipleChoiceQuestionWidget extends React.Component {
         this.optionField="";
         this.onSelect = this.onSelect.bind(this)
         this.updateOptionField=this.updateOptionField.bind(this);
+        this.deleteOption=this.deleteOption.bind(this);
     }
 
+    deleteOption(index){
+
+       this.setState({options: this.state.options.splice( index, 1 )});
+    }
 
     updateForm(newState) {
         this.setState(newState)
